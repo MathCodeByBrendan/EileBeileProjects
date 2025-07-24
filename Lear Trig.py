@@ -73,21 +73,24 @@ for i in range(1, 4):
     turtle.write(f'To play game {i} enter {i}', font = ('Monospace', 12, 'bold'))
 
 def game_1():
+    #Creating a number turtle
+    game1_turtle = turtle.Turtle()
+
     #Visualize Adjacent length
-    turtle.penup()
-    turtle.setposition(green/2 -20, -30)
-    turtle.pencolor('green')
-    turtle.write(f'{green} units', font = ('Monospace', 10, 'bold'))
+    game1_turtle.penup()
+    game1_turtle.setposition(green/2 -20, -30)
+    game1_turtle.pencolor('green')
+    game1_turtle.write(f'{green} units', font = ('Monospace', 10, 'bold'))
     #Visualize Opposite length
-    turtle.penup()
-    turtle.setposition(green + 20, blue/2)
-    turtle.pencolor('blue')
-    turtle.write(f'{blue} units', font = ('Monospace', 10, 'bold'))
+    game1_turtle.penup()
+    game1_turtle.setposition(green + 20, blue/2)
+    game1_turtle.pencolor('blue')
+    game1_turtle.write(f'{blue} units', font = ('Monospace', 10, 'bold'))
     #Visualize Opposite length
-    turtle.penup()
-    turtle.setposition(green/2 - 110, blue/2)
-    turtle.pencolor('white')
-    turtle.write(f'~ {white:.2f} units', font = ('Monospace', 10, 'bold'))
+    game1_turtle.penup()
+    game1_turtle.setposition(green/2 - 110, blue/2)
+    game1_turtle.pencolor('white')
+    game1_turtle.write(f'~ {white:.2f} units', font = ('Monospace', 10, 'bold'))
 
     sin_val = blue/white
     cos_val = green/white
@@ -135,7 +138,7 @@ def game_1():
         if repeat == 'y':
             continue
         break
-    
+    game1_turtle.clear()
 
 def select_game():
     while True:
