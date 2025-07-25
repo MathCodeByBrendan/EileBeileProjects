@@ -13,57 +13,15 @@ def is_string_fraction(n):
 turtle.bgcolor('black')
 turtle.pensize(3)
 
-#Create basic right triangle, define theta position
-green, blue = [np.random.randint(100, 350) for _ in range(2)]
-white = np.hypot(green, blue)
+#Let green be adjacent, blue be oppisite, white be hypotenuse, define them using abstract number 0, and redefine later
+green = 0
+blue = 0
+white = 0
 
-#Create Title
-turtle.penup()
-turtle.setposition(-150, 200)
-turtle.pendown()
-
-turtle.color("orange")
-turtle.write('Trig Games', font = ('Monospace', 25, 'bold'))
-turtle.penup()
-turtle.setposition(0, 0)
-
-#Create Triangle
-turtle.pendown()
-turtle.pencolor('green')
-turtle.forward(green)
-turtle.pencolor('blue')
-turtle.penup()
-turtle.backward(30)
-turtle.pendown()
-turtle.left(90)
-turtle.forward(30)
-turtle.right(90)
-turtle.forward(30)
-turtle.left(90)
-turtle.penup()
-turtle.backward(30)
-turtle.pendown()
-turtle.pencolor('blue')
-turtle.forward(blue)
-angle2_position = turtle.position()
-turtle.color('white')
-turtle.left(180-np.degrees(np.atan((green/blue))))
-turtle.forward(white)
-
-#Create theta symbol
-x_position = 0
-if blue < 150:
-    x_position = 50 + green/25
-elif blue < 250:
-    x_position = 35 + green/25
-else:
-    x_position = 25 + green/25
-turtle.penup()
-turtle.setposition(x_position, 0)
-turtle.pendown()
-turtle.color('light blue')
-turtle.write('θ', font = ('Monospace', 20, 'bold'))
-
+#Main Turtle
+turtle.Turtle()
+turtle.pencolor('orange')
+# Create Game Options
 for i in range(1, 4):
     turtle.penup()
     delta_y = 100 * (i - 1)
@@ -72,26 +30,79 @@ for i in range(1, 4):
     turtle.pendown()
     turtle.write(f'To play game {i} enter {i}', font = ('Monospace', 12, 'bold'))
 
+#Create basic right triangle, define theta position
+min_length = 100
+max_length = 350
+
+def create_triangle()-> list:
+    # Generate lengths (green, blue, white)
+    green, blue = [np.random.randint(min_length, max_length) for _ in range(2)]
+    white = np.hypot(green, blue)
+
+    #Create Title
+    turtle.penup()
+    turtle.setposition(-150, 200)
+    turtle.pendown()
+    turtle.color("orange")
+    turtle.write('Trig Games', font = ('Monospace', 25, 'bold'))
+    turtle.penup()
+    turtle.setposition(0, 0)
+
+    #Create Triangle
+    turtle.pendown()
+    turtle.pencolor('green')
+    turtle.forward(green)
+    turtle.pencolor('blue')
+    turtle.penup()
+    turtle.backward(30)
+    turtle.pendown()
+    turtle.left(90)
+    turtle.forward(30)
+    turtle.right(90)
+    turtle.forward(30)
+    turtle.left(90)
+    turtle.penup()
+    turtle.backward(30)
+    turtle.pendown()
+    turtle.pencolor('blue')
+    turtle.forward(blue)
+    angle2_position = turtle.position()
+    turtle.color('white')
+    turtle.left(180-np.degrees(np.atan((green/blue))))
+    turtle.forward(white)
+
+    # (P_1)!!!     #Create theta symbol
+    x_position = 100 * ((max_length + 150) - (blue)) / (max_length + blue) - green/25
+    turtle.penup()
+    turtle.setposition(x_position, 0)
+    turtle.pendown()
+    turtle.color('light blue')
+    turtle.write('θ', font = ('Monospace', 20, 'bold'))
+    
+    return green, blue, white
+
 def game_1():
-    #Creating a number turtle
-    game1_turtle = turtle.Turtle()
+    #Create subTurtle for game_1(), create triangle and define adjacent(green), oppisite(blue) and hypot(white)
+    green, blue, white = create_triangle()
+    g1_turtle = turtle.Turtle()
 
     #Visualize Adjacent length
-    game1_turtle.penup()
-    game1_turtle.setposition(green/2 -20, -30)
-    game1_turtle.pencolor('green')
-    game1_turtle.write(f'{green} units', font = ('Monospace', 10, 'bold'))
+    g1_turtle.penup()
+    g1_turtle.setposition(green/2 -20, -30)
+    g1_turtle.pencolor('green')
+    g1_turtle.write(f'{green} units', font = ('Monospace', 10, 'bold'))
     #Visualize Opposite length
-    game1_turtle.penup()
-    game1_turtle.setposition(green + 20, blue/2)
-    game1_turtle.pencolor('blue')
-    game1_turtle.write(f'{blue} units', font = ('Monospace', 10, 'bold'))
-    #Visualize Opposite length
-    game1_turtle.penup()
-    game1_turtle.setposition(green/2 - 110, blue/2)
-    game1_turtle.pencolor('white')
-    game1_turtle.write(f'~ {white:.2f} units', font = ('Monospace', 10, 'bold'))
+    g1_turtle.penup()
+    g1_turtle.setposition(green + 20, blue/2)
+    g1_turtle.pencolor('blue')
+    g1_turtle.write(f'{blue} units', font = ('Monospace', 10, 'bold'))
+    #Visualize Hypotenuse length
+    g1_turtle.penup()
+    g1_turtle.setposition(green/2 - 110, blue/2)
+    g1_turtle.pencolor('white')
+    g1_turtle.write(f'~ {white:.2f} units', font = ('Monospace', 10, 'bold'))
 
+    #calculate sin(θ), cos(θ), and tan(θ)
     sin_val = blue/white
     cos_val = green/white
     tan_val = blue/green
@@ -102,7 +113,8 @@ def game_1():
             while True:
                 try:
                     ans_to_simplify = input(f"Enter {identity}(θ) as a fraction (a/b) or a number (0.2342) with 4 decimal places: ")
-                    if is_string_fraction(ans_to_simplify) is True:
+                    #if function() -> bool: automatically checks for is True, if false, does not run
+                    if is_string_fraction(ans_to_simplify):
                         a_to_simplify, b_to_simplify = ans_to_simplify.split('/')
                         a, b = float(a_to_simplify), float(b_to_simplify)
                         ans = a / b
@@ -138,7 +150,7 @@ def game_1():
         if repeat == 'y':
             continue
         break
-    game1_turtle.clear()
+    g1_turtle.clear()
 
 def select_game():
     while True:
