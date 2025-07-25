@@ -1,6 +1,7 @@
 import turtle as t
 import numpy as np
 import math
+
 #Helper functions
 def is_string_fraction(n):
     if '/' in n:
@@ -58,6 +59,7 @@ t.pencolor('orange')
 Font_Main = ('Monospace', 12, 'bold')
 Font_20 = ('Monospace', 20, 'bold')
 Font_25 = ('Monospace', 25, 'bold')
+
 # Create Game Options
 for i in range(1, 4):
     t.penup()
@@ -68,12 +70,13 @@ for i in range(1, 4):
     t.write(f'To play game {i} enter {i}', font = Font_Main)
 
 #Create basic right triangle, define theta position
-min_length = 100
-max_length = 350
 
 ct = t.Turtle()
 
 def create_triangle()-> list:
+    min_length = 100
+    max_length = 350
+    
     # Generate lengths (green, blue, white)
     green, blue = [np.random.randint(min_length, max_length) for _ in range(2)]
     white = np.hypot(green, blue)
@@ -174,6 +177,26 @@ def game_1():
     ct.clear()
     ct.setposition(0, 0)
     ct.setheading(0)
+
+
+'''
+Need to create functions to visualize each individual side length: oppisite, adjacent, hypotenuse. 
+Then need to cycle through showing oppisite and hypot only, adjacent and hypot only, then oppisite and adjacent only. 
+During each phase of the cycle need to visualize new triangle.
+'''
+
+''' 
+def game_2():
+    for i in range(1, 4):
+        print("Ready to play? Let's gooo!!!")
+        print(f"Game {i} begins...")
+        green, blue, white = create_triangle()
+        tan_val = blue/white
+        θ = np.atan(tan_val)
+        while True:
+            
+            break
+'''
 
 def select_game():
     while True:
