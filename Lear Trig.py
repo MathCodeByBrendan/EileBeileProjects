@@ -1,5 +1,4 @@
-import turtle
-import sympy
+import turtle as t
 import numpy as np
 import math
 #Helper functions
@@ -8,107 +7,8 @@ def is_string_fraction(n):
         return True
     else:
         return False
-
-#Set Background Color
-turtle.bgcolor('black')
-turtle.pensize(3)
-
-#Let green be adjacent, blue be oppisite, white be hypotenuse, define them using abstract number 0, and redefine later
-green = 0
-blue = 0
-white = 0
-
-#Main Turtle
-turtle.Turtle()
-turtle.pencolor('orange')
-# Create Game Options
-for i in range(1, 4):
-    turtle.penup()
-    delta_y = 100 * (i - 1)
-    y_pos = 100 - delta_y
-    turtle.setposition(-300, y_pos)
-    turtle.pendown()
-    turtle.write(f'To play game {i} enter {i}', font = ('Monospace', 12, 'bold'))
-
-#Create basic right triangle, define theta position
-min_length = 100
-max_length = 350
-
-def create_triangle()-> list:
-    # Generate lengths (green, blue, white)
-    green, blue = [np.random.randint(min_length, max_length) for _ in range(2)]
-    white = np.hypot(green, blue)
-
-    #Create Title
-    turtle.penup()
-    turtle.setposition(-150, 200)
-    turtle.pendown()
-    turtle.color("orange")
-    turtle.write('Trig Games', font = ('Monospace', 25, 'bold'))
-    turtle.penup()
-    turtle.setposition(0, 0)
-
-    #Create Triangle
-    turtle.pendown()
-    turtle.pencolor('green')
-    turtle.forward(green)
-    turtle.pencolor('blue')
-    turtle.penup()
-    turtle.backward(30)
-    turtle.pendown()
-    turtle.left(90)
-    turtle.forward(30)
-    turtle.right(90)
-    turtle.forward(30)
-    turtle.left(90)
-    turtle.penup()
-    turtle.backward(30)
-    turtle.pendown()
-    turtle.pencolor('blue')
-    turtle.forward(blue)
-    angle2_position = turtle.position()
-    turtle.color('white')
-    turtle.left(180-np.degrees(np.atan((green/blue))))
-    turtle.forward(white)
-
-    # (P_1)!!!     #Create theta symbol
-    x_position = 100 * ((max_length + 150) - (blue)) / (max_length + blue) - green/25
-    turtle.penup()
-    turtle.setposition(x_position, 0)
-    turtle.pendown()
-    turtle.color('light blue')
-    turtle.write('θ', font = ('Monospace', 20, 'bold'))
     
-    return green, blue, white
-
-def game_1():
-    #Create subTurtle for game_1(), create triangle and define adjacent(green), oppisite(blue) and hypot(white)
-    green, blue, white = create_triangle()
-    g1_turtle = turtle.Turtle()
-
-    #Visualize Adjacent length
-    g1_turtle.penup()
-    g1_turtle.setposition(green/2 -20, -30)
-    g1_turtle.pencolor('green')
-    g1_turtle.write(f'{green} units', font = ('Monospace', 10, 'bold'))
-    #Visualize Opposite length
-    g1_turtle.penup()
-    g1_turtle.setposition(green + 20, blue/2)
-    g1_turtle.pencolor('blue')
-    g1_turtle.write(f'{blue} units', font = ('Monospace', 10, 'bold'))
-    #Visualize Hypotenuse length
-    g1_turtle.penup()
-    g1_turtle.setposition(green/2 - 110, blue/2)
-    g1_turtle.pencolor('white')
-    g1_turtle.write(f'~ {white:.2f} units', font = ('Monospace', 10, 'bold'))
-
-    #calculate sin(θ), cos(θ), and tan(θ)
-    sin_val = blue/white
-    cos_val = green/white
-    tan_val = blue/green
-    
-    #Define sin/cos/tan verifying helper function
-    def test_user(identity, trig_val):
+def test_user(identity, val):
         while True:
             while True:
                 try:
@@ -126,31 +26,154 @@ def game_1():
                 break
 
                 #Within 0.1 percent
-            if math.isclose(ans, trig_val, rel_tol=1e-3):
+            if math.isclose(ans, val, rel_tol=1e-3):
                 print('Awesome answer! CORRECT!!!')
                 break
             else:
-                repeat = input("False. Would you like to try again? Press N for no, Y for yes:").lower().strip()
+                while True:
+                    repeat = input("False. Would you like to try again? Press N for no, Y for yes:").lower().strip()
+                    if repeat != 'n' and repeat != 'y':
+                        print("Answer must be Y, or N.")
+                        continue
+                    break
                 if repeat == 'n':
                     break
-                elif repeat == 'y':
-                    continue
                 else:
-                    print("Answer must be Y, or N.")
+                    continue
+
+#Set Background Color
+t.bgcolor('black')
+t.pensize(3)
+
+#Let green be adjacent, blue be oppisite, white be hypotenuse, define them using abstract number 0, and redefine later
+green = 0
+blue = 0
+white = 0
+
+#Main Turtle
+t.Turtle()
+t.pencolor('orange')
+
+#Fonts
+Font_Main = ('Monospace', 12, 'bold')
+Font_20 = ('Monospace', 20, 'bold')
+Font_25 = ('Monospace', 25, 'bold')
+# Create Game Options
+for i in range(1, 4):
+    t.penup()
+    delta_y = 100 * (i - 1)
+    y_pos = 100 - delta_y
+    t.setposition(-300, y_pos)
+    t.pendown()
+    t.write(f'To play game {i} enter {i}', font = Font_Main)
+
+#Create basic right triangle, define theta position
+min_length = 100
+max_length = 350
+
+ct = t.Turtle()
+
+def create_triangle()-> list:
+    # Generate lengths (green, blue, white)
+    green, blue = [np.random.randint(min_length, max_length) for _ in range(2)]
+    white = np.hypot(green, blue)
+
+    #Create Title
+    ct.penup()
+    ct.setposition(-150, 200)
+    ct.pendown()
+    ct.color("orange")
+    ct.write('Trig Games', font = Font_25)
+    ct.penup()
+    ct.setposition(0, 0)
+
+    #Create Triangle
+    ct.pendown()
+    ct.pencolor('green')
+    ct.forward(green)
+    ct.pencolor('blue')
+    ct.penup()
+    ct.backward(30)
+    ct.pendown()
+    ct.left(90)
+    ct.forward(30)
+    ct.right(90)
+    ct.forward(30)
+    ct.left(90)
+    ct.penup()
+    ct.backward(30)
+    ct.pendown()
+    ct.pencolor('blue')
+    ct.forward(blue)
+    ct.color('white')
+    ct.left(180-np.degrees(np.atan((green/blue))))
+    ct.forward(white)
+
+    # (P_1)!!!     #Create theta symbol
+    x_position = 100 * ((max_length + 150) - (blue)) / (max_length + blue) - green/25
+    ct.penup()
+    ct.setposition(x_position, 0)
+    ct.pendown()
+    ct.color('light blue')
+    ct.write('θ', font = Font_20)
+    
+    return green, blue, white
+
+def game_1():
     while True:
-        test_user('sin', sin_val)
-        test_user('cos', cos_val)
-        test_user('tan', tan_val)
+        #Create subTurtle for game_1(), create triangle and define adjacent(green), oppisite(blue) and hypot(white)
+        green, blue, white = create_triangle()
+        t1 = t.Turtle()
+
+        #Visualize Adjacent length
+        t1.penup()
+        t1.setposition(green/2 -20, -30)
+        t1.pencolor('green')
+        t1.write(f'{green} units', font = Font_Main)
+        #Visualize Opposite length
+        t1.penup()
+        t1.setposition(green + 20, blue/2)
+        t1.pencolor('blue')
+        t1.write(f'{blue} units', font = Font_Main)
+        #Visualize Hypotenuse length
+        t1.penup()
+        t1.setposition(green/2 - 110, blue/2)
+        t1.pencolor('white')
+        t1.write(f'~ {white:.2f} units', font = Font_Main)
+
+        #calculate sin(θ), cos(θ), and tan(θ)
+        sin_val = blue/white
+        cos_val = green/white
+        tan_val = blue/green
+        
+        #Use sin/cos/tan verifying helper function
         while True:
+            test_user('sin', sin_val)
+            test_user('cos', cos_val)
+            test_user('tan', tan_val)
             repeat = input("Play again? Y for yes, N for no: ").lower().strip()
             if repeat != 'y' and repeat !='n':
                 print("Answer must be N or Y.")
                 continue
             break
+            
         if repeat == 'y':
+            t1.clear()
+            t1.setposition(0, 0)
+            t1.setheading(0)
+            ct.clear()
+            ct.setposition(0, 0)
+            ct.setheading(0)
             continue
-        break
-    g1_turtle.clear()
+        else:
+            break  
+        
+    t1.clear()
+    t1.setposition(0, 0)
+    t1.setheading(0)
+    ct.clear()
+    ct.setposition(0, 0)
+    ct.setheading(0)
 
 def select_game():
     while True:
@@ -164,4 +187,4 @@ def select_game():
 
 select_game()
 
-turtle.done()
+t.done()
