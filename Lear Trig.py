@@ -2,6 +2,8 @@ import turtle as t
 import numpy as np
 import math
 
+t1 = t.Turtle()
+
 #Helper functions
 def is_string_fraction(n):
     if '/' in n:
@@ -42,6 +44,32 @@ def test_user(identity, val):
                 else:
                     continue
 
+def test_user_g2(θ_radians, θ_degrees):
+        while True:
+            while True:
+                try:
+                    ans_to_simplify = input(f"Enter θ in degrees (1 decimal place or radians (3 decimal places): ")
+                    ans = float(ans_to_simplify)
+                except ValueError:
+                    print("Answer must be a number or fraction. Please try again.")
+                    continue
+                break
+
+                #Within 0.1 percent
+            if math.isclose(ans, θ_radians, rel_tol=1e-3) or math.isclose(ans, θ_degrees, rel_tol=1e-1):
+                print('Awesome answer! CORRECT!!!')
+                break
+            else:
+                while True:
+                    repeat = input("False. Would you like to try again? Press N for no, Y for yes:").lower().strip()
+                    if repeat != 'n' and repeat != 'y':
+                        print("Answer must be Y, or N.")
+                        continue
+                    break
+                if repeat == 'n':
+                    break
+                else:
+                    continue
 #Set Background Color
 t.bgcolor('black')
 t.pensize(3)
@@ -126,7 +154,6 @@ def game_1():
     while True:
         #Create subTurtle for game_1(), create triangle and define adjacent(green), oppisite(blue) and hypot(white)
         green, blue, white = create_triangle()
-        t1 = t.Turtle()
 
         #Visualize Adjacent length
         t1.penup()
@@ -185,27 +212,98 @@ Then need to cycle through showing oppisite and hypot only, adjacent and hypot o
 During each phase of the cycle need to visualize new triangle.
 '''
 
-''' 
+def play_game_2(side1, side2):
+    green, blue, white = create_triangle()
+    θ_radians = np.atan(blue/green)
+    θ_degrees = np.degrees(θ_radians)
+
+    #Visualize Adjacent length
+    def visualize_adjacent():
+        t1.penup()
+        t1.setposition(green/2 -20, -30)
+        t1.pencolor('green')
+        t1.write(f'{green} units', font = Font_Main)
+    #Visualize Opposite length
+    def visualize_oppisite():
+        t1.penup()
+        t1.setposition(green + 20, blue/2)
+        t1.pencolor('blue')
+        t1.write(f'{blue} units', font = Font_Main)
+        #Visualize Hypotenuse length
+    def visualize_hypotenuse():
+        t1.penup()
+        t1.setposition(green/2 - 110, blue/2)
+        t1.pencolor('white')
+        t1.write(f'~ {white:.2f} units', font = Font_Main)
+
+
+    if side1 == 'opposite':
+        visualize_oppisite()
+        side1 = 'opposite'
+    elif side1 == 'adjacent':
+        visualize_adjacent()
+        side1 = 'adjacent'
+    else:
+        print("Side one must be 'opposite' or 'adjacent'")
+    
+
+    if side2 == 'adjacent':
+        visualize_adjacent()
+        side2 = 'adjacent'
+    elif side2 == 'hypotenuse':
+        visualize_hypotenuse()
+        side2 = 'hypotenuse'
+    else:
+        print("Side two must be 'adjacent' or 'hypotenuse'")
+
+    print(f"Part 1: calculate θ based on {side1} and {side2} lengths:")
+
+    test_user_g2(θ_radians, θ_degrees)
+
+    t1.clear()
+    t1.setposition(0, 0)
+    t1.setheading(0)
+    ct.clear()
+    ct.setposition(0, 0)
+    ct.setheading(0)
+
+
+ 
 def game_2():
-    for i in range(1, 4):
-        print("Ready to play? Let's gooo!!!")
-        print(f"Game {i} begins...")
-        green, blue, white = create_triangle()
-        tan_val = blue/white
-        θ = np.atan(tan_val)
+    while True:
+        play_game_2('opposite', 'hypotenuse')
+        play_game_2('adjacent', 'hypotenuse')
+        play_game_2('opposite', 'adjacent')
+        repeat = input("Play again? Y for yes, N for no: ").lower().strip()
         while True:
-            
+            if repeat != 'y' and repeat !='n':
+                print("Answer must be N or Y.")
+                continue
             break
-'''
+            
+        if repeat == 'y':
+            t1.clear()
+            t1.setposition(0, 0)
+            t1.setheading(0)
+            ct.clear()
+            ct.setposition(0, 0)
+            ct.setheading(0)
+            continue
+        else:
+            break  
+        
 
 def select_game():
     while True:
-        selection = input("Enter 1 to play the easiest level. Upcoming levels are in the making. Expected completion: 07/27/2025: ")
+        selection = input("Enter 1 to play the easiest level, 2 for moderate. Upcoming levels are in the making. Expected completion: 07/27/2025: ")
         if selection == '1':
             game_1()
             break
+        elif selection =='2':
+            game_2()
+            break
         else:
-            print("Please enter 1")
+            print("Please enter 1 or 2")
             continue
 
 select_game()
