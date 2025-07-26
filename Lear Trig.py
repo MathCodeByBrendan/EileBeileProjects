@@ -267,19 +267,158 @@ def game_2():
             break  
     #Let user select new game
     select_game()
+
+def play_game_3(side):
+    global green, blue, white
+    green, blue, white = create_triangle()
+    θ_radians = np.atan(blue/green)
+    θ_degrees = np.degrees(θ_radians)
+    t1.penup()
+    t1.setposition(0, -100)
+    t1.pendown()
+    t1.color('light blue')
+    t1.write(f'θ deg = {θ_degrees:.4f}', font = Font_Main)
+    t1.penup()
+    t1.setposition(0, -50)
+    t1.pendown()
+    t1.write(f'θ rad = {θ_radians:.7f}', font = Font_Main)
+
+    if side == 'opposite':
+        visualize_opposite()
+        while True:
+            try:
+                ans1_to_simplify = input("Enter adjacent length: ")
+                ans1 = float(ans1_to_simplify)
+            except ValueError:
+                print("Answer must be a number..... Fix Later")
+                continue
+            try:
+                ans2_to_simplify = input("Enter the hypotenuse length: ")
+                ans2 = float(ans2_to_simplify)
+            except ValueError:
+                print("Answer must be a number..... Fix Later")
+                continue
+
+            if math.isclose(ans1, green, rel_tol=1e-3):
+                print("Correct")
+            else:
+                if repeat():
+                    continue
+            
+            if math.isclose(ans2, blue, rel_tol=1e-3):
+                print("Correct")
+                clear_triangle_and_markup()
+                break
+            else:
+                if repeat():
+                    clear_triangle_and_markup()
+                    continue
+                else:
+                    clear_triangle_and_markup()
+                    break
+    elif side == 'adjacent':
+        visualize_adjacent()
+        while True:
+            try:
+                ans1_to_simplify = input("Enter opposite length: ")
+                ans1 = float(ans1_to_simplify)
+            except ValueError:
+                print("Answer must be a number..... Fix Later")
+                continue
+            try:
+                ans2_to_simplify = input("Enter the hypotenuse length: ")
+                ans2 = float(ans2_to_simplify)
+            except ValueError:
+                print("Answer must be a number..... Fix Later")
+                continue
+
+            if math.isclose(ans1, blue, rel_tol=1e-3):
+                print("Correct")
+            else:
+                if repeat():
+                    continue
+            
+            if math.isclose(ans2, white, rel_tol=1e-3):
+                print("Correct")
+                clear_triangle_and_markup()
+                break
+            else:
+                if repeat():
+                    clear_triangle_and_markup()
+                    continue
+                else:
+                    clear_triangle_and_markup()
+                    break
+    elif side == 'hypotenuse':
+        visualize_hypotenuse()
+        while True:
+            try:
+                ans1_to_simplify = input("Enter opposite length: ")
+                ans1 = float(ans1_to_simplify)
+            except ValueError:
+                print("Answer must be a number..... Fix Later")
+                continue
+            try:
+                ans2_to_simplify = input("Enter the adjacent length: ")
+                ans2 = float(ans2_to_simplify)
+            except ValueError:
+                print("Answer must be a number..... Fix Later")
+                continue
+
+            if math.isclose(ans1, blue, rel_tol=1e-3):
+                print("Correct")
+            else:
+                if repeat():
+                    continue
+            
+            if math.isclose(ans2, green, rel_tol=1e-3):
+                print("Correct")
+                clear_triangle_and_markup()
+                break
+            else:
+                if repeat():
+                    clear_triangle_and_markup()
+                    continue
+                else:
+                    clear_triangle_and_markup()
+                    break
+
+def game_3():
+    while True:
+        sides = [
+            'opposite',
+            'adjacent',
+            'hypotenuse'
+        ]
+
+        random.shuffle(sides)
+
+        for side in sides:
+            play_game_3(side)
+        
+        if repeat():
+            clear_triangle_and_markup()
+            continue
+        else:
+            break
+    #Let user select new game
+    select_game()
         
 
 def select_game():
     while True:
-        selection = input("Enter 1 to play the easiest level, 2 for moderate. Upcoming levels are in the making. Expected completion: 07/27/2025: ")
+        selection = input("Enter 1 to play the easiest level, 2 for moderate, or 3 for hardest.")
         if selection == '1':
             game_1()
             break
         elif selection =='2':
             game_2()
             break
+        elif selection =='3':
+            game_3()
+            break
         else:
-            print("Please enter 1 or 2")
+            print("Please enter 1, 2 or 3")
             continue
 
 select_game()
